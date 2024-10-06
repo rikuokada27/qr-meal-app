@@ -1,0 +1,35 @@
+# version: '3.8'
+
+services:
+  qr-meal_api:
+    build:
+      context: ./qr-meal_api
+    command: bash -c "rm -f tmp/pids/server.pid && rails db:create && rails server -b 0.0.0.0"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./qr-meal_api:/app
+    environment:
+      DATABASE_URL: postgres://user:password@db:5432/myapp
+    depends_on:
+      - db
+
+  qr-meal_client:
+    build:
+      context: ./qr-meal_client
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./qr-meal_client:/app
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: myapp
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
