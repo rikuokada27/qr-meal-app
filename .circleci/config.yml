@@ -1,0 +1,62 @@
+version: 2.1
+
+jobs:
+  backend_tests:
+    docker:
+      - image: circleci/ruby:3.1.2
+        environment:
+          APP_DATABASE_HOST: "127.0.0.1"
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres@localhost/qr_meal_test
+      - image: circleci/postgres:13
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: qr_meal_test
+    steps:
+      - checkout
+
+      - run:
+          name: Install Dependencies
+          command: |
+            gem install bundler
+            bundle install
+            cd qr-meal_api
+            bundle install
+
+      - run:
+          name: Set Up Database
+          command: |
+            cd qr-meal_api
+            bin/rails db:create
+            bin/rails db:migrate RAILS_ENV=test
+
+      - run:
+          name: Run Rails Tests
+          command: |
+            cd qr-meal_api
+            bundle exec rspec
+
+  frontend_tests:
+    docker:
+      - image: cimg/node:16.20
+    steps:
+      - checkout
+
+      - run:
+          name: Install Dependencies
+          command: |
+            cd qr-meal_client
+            npm install
+
+      - run:
+          name: Run Next.js Tests
+          command: |
+            cd qr-meal_client
+            npm test
+
+workflows:
+  version: 2
+  test_and_build:
+    jobs:
+      - backend_tests
+      - frontend_tests
