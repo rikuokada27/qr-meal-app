@@ -1,0 +1,9 @@
+heroku config:add APP_DATABASE='d556as8nlfffd' -a qr-meal-app
+
+heroku config:add APP_DATABASE_USERNAME='u2bsvm7pk9hc05' -a qr-meal-app
+
+heroku config:add APP_DATABASE_PASSWORD='pdec9ca1bbe9ccaeaa1d1f2a3fb6b9d3cc91a273e9caa3f4c2ed1e648937e6894' -a qr-meal-app
+
+heroku config:add APP_DATABASE_HOST='c9pv5s2sq0i76o.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com' -a qr-meal-app
+
+heroku config:add RAILS_SERVE_STATIC_FILES='true' -a qr-meal-app
