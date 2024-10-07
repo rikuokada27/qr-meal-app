@@ -3,12 +3,12 @@ version: 2.1
 jobs:
   backend_tests:
     docker:
-      - image: circleci/ruby:3.1.2
+      - image: cimg/ruby:3.1.2
         environment:
           APP_DATABASE_HOST: "127.0.0.1"
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres@localhost/qr_meal_test
-      - image: circleci/postgres:13
+      - image: cimg/postgres:13
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: qr_meal_test
