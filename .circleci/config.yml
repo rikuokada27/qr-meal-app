@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/ruby:3.1.2
+      - image: cimg/ruby:3.1.2
     working_directory: ~/qr-meal-app/qr-meal_api
     steps:
       - checkout:
@@ -15,8 +15,8 @@ jobs:
 
   test:
     docker:
-      - image: circleci/ruby:3.1.2
-      - image: circleci/postgres:13
+      - image: cimg/ruby:3.1.2
+      - image: cimg/postgres:13
         environment:
           POSTGRES_ROOT_PASSWORD: password
           POSTGRES_DATABASE: qr_meal_api_test
