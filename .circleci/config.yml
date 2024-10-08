@@ -11,6 +11,11 @@ jobs:
     steps:
       - checkout:
           path: ~/qr-meal-app
+      - run:
+          name: Set Bundler Configuration
+          command: |
+            bundle config set path './vendor/bundle'
+            bundle config set deployment 'true'
       - ruby/install-deps
 
   test:
@@ -18,8 +23,8 @@ jobs:
       - image: cimg/ruby:3.2.5
       - image: cimg/postgres:13.4
         environment:
-          POSTGRES_ROOT_PASSWORD: password
-          POSTGRES_DATABASE: qr_meal_api_test
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: qr_meal_api_test
           POSTGRES_USER: user
     environment:
       BUNDLE_JOBS: "3"
@@ -30,12 +35,29 @@ jobs:
     steps:
       - checkout:
           path: ~/qr-meal-app
+      - run:
+          name: Set Bundler Configuration
+          command: |
+            bundle config set path './vendor/bundle'
+            bundle config set deployment 'true'
       - ruby/install-deps
       - run:
-          name: Database setup
+        name: Wait for PostgreSQL to be ready
+        command: |
+          for i in `seq 1 10`; do
+            nc -zv 127.0.0.1 5432 && exit 0
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done
+          echo "PostgreSQL is not available yet" && exit 1
+      - run:
+          name: Create Test Database
+          command: bundle exec rails db:create
+      - run:
+          name: Migrate Database
           command: bundle exec rails db:migrate
       - run:
-          name: test
+          name: Run Tests
           command: bundle exec rake test
 
 workflows:
