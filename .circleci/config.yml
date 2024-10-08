@@ -52,14 +52,14 @@ jobs:
           command: gem install bundler -v 2.5.21
       - ruby/install-deps
       - run:
-        name: Wait for PostgreSQL to be ready
-        command: |
-          for i in `seq 1 10`; do
-            nc -zv 127.0.0.1 5432 && exit 0
-            echo "Waiting for PostgreSQL..."
-            sleep 2
-          done
-          echo "PostgreSQL is not available yet" && exit 1
+          name: Wait for PostgreSQL to be ready
+          command: |
+            for i in `seq 1 10`; do
+              nc -zv 127.0.0.1 5432 && exit 0
+              echo "Waiting for PostgreSQL..."
+              sleep 2
+            done
+            echo "PostgreSQL is not available yet" && exit 1
       - run:
           name: Create Test Database
           command: bundle exec rails db:create
