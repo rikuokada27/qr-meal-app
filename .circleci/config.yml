@@ -1,62 +1,48 @@
 version: 2.1
+orbs:
+  ruby: circleci/ruby@1.1.2
+  heroku: circleci/heroku@1.2.3
 
 jobs:
-  backend_tests:
+  build:
     docker:
-      - image: cimg/ruby:3.1.2
-        environment:
-          APP_DATABASE_HOST: "127.0.0.1"
-          RAILS_ENV: test
-          DATABASE_URL: postgres://postgres@localhost/qr_meal_test
-      - image: cimg/postgres:13
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: qr_meal_test
+      - image: circleci/ruby:3.1.2
+    working_directory: ~/qr-meal-app/qr-meal_api
     steps:
-      - checkout
+      - checkout:
+          path: ~/qr-meal-app
+      - ruby/install-deps
 
-      - run:
-          name: Install Dependencies
-          command: |
-            gem install bundler
-            bundle install
-            cd qr-meal_api
-            bundle install
-
-      - run:
-          name: Set Up Database
-          command: |
-            cd qr-meal_api
-            bin/rails db:create
-            bin/rails db:migrate RAILS_ENV=test
-
-      - run:
-          name: Run Rails Tests
-          command: |
-            cd qr-meal_api
-            bundle exec rspec
-
-  frontend_tests:
+  test:
     docker:
-      - image: cimg/node:16.20
+      - image: circleci/ruby:3.1.2
+      - image: circleci/postgres:13
+        environment:
+          POSTGRES_ROOT_PASSWORD: password
+          POSTGRES_DATABASE: qr_meal_api_test
+          POSTGRES_USER: user
+    environment:
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+      APP_DATABASE_HOST: "127.0.0.1"
+      RAILS_ENV: test
+    working_directory: ~/qr-meal-app/qr-meal_api
     steps:
-      - checkout
-
+      - checkout:
+          path: ~/qr-meal-app
+      - ruby/install-deps
       - run:
-          name: Install Dependencies
-          command: |
-            cd qr-meal_client
-            npm install
-
+          name: Database setup
+          command: bundle exec rails db:migrate
       - run:
-          name: Run Next.js Tests
-          command: |
-            cd qr-meal_client
-            npm test
+          name: test
+          command: bundle exec rake test
 
 workflows:
   version: 2
-  test_and_build:
+  build_test_and_deploy:
     jobs:
-      - backend_tests
-      - frontend_tests
+      - build
+      - test:
+          requires:
+            - build
