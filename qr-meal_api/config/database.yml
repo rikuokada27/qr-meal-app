@@ -19,7 +19,7 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
-  host: db # Docker Composeで定義するサービス名
+  host: <%= ENV['APP_DATABASE_HOST'] || '127.0.0.1' %> # Docker Composeで定義するサービス名
   username: <%= ENV['POSTGRES_USER'] || 'user' %>
   password: <%= ENV['POSTGRES_PASSWORD'] || 'password' %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
