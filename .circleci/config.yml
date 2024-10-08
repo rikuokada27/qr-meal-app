@@ -47,7 +47,7 @@ jobs:
           command: |
             bundle config set path './vendor/bundle'
             bundle config set deployment 'true'
-       - run:
+      - run:
           name: Install Specific Bundler Version
           command: gem install bundler -v 2.5.21
       - ruby/install-deps
