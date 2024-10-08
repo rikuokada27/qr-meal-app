@@ -16,6 +16,9 @@ jobs:
           command: |
             bundle config set path './vendor/bundle'
             bundle config set deployment 'true'
+      - run:
+          name: Install Specific Bundler Version
+          command: gem install bundler -v 2.5.21
       - ruby/install-deps
 
   test:
@@ -40,6 +43,9 @@ jobs:
           command: |
             bundle config set path './vendor/bundle'
             bundle config set deployment 'true'
+       - run:
+          name: Install Specific Bundler Version
+          command: gem install bundler -v 2.5.21
       - ruby/install-deps
       - run:
         name: Wait for PostgreSQL to be ready
