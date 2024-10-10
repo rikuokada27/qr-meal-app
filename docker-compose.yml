@@ -4,13 +4,18 @@ services:
   qr-meal_api:
     build:
       context: ./qr-meal_api
-    command: bash -c "rm -f tmp/pids/server.pid && rails db:create && rails server -b 0.0.0.0"
+    command: bash -c "rm -f tmp/pids/server.pid && until pg_isready -h db -p 5432; do sleep 1; done && rails server -b 0.0.0.0"
     ports:
       - "3000:3000"
     volumes:
       - ./qr-meal_api:/app
     environment:
       DATABASE_URL: postgres://user:password@db:5432/myapp
+      APP_DATABASE: myapp
+      APP_POSTGRES_USERNAME: user
+      APP_POSTGRES_PASSWORD: password
+      APP_POSTGRES_HOST: db
+      RAILS_ENV: production
     depends_on:
       - db
 
