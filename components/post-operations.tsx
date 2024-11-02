@@ -13,7 +13,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
@@ -28,7 +27,8 @@ async function deletePost(postId: string) {
     }
 
     return true
-  } catch (err) {
+  } catch {
+    // errを使用せず、ただトーストを表示
     toast({
       title: "問題が発生しました。",
       description: "記事の削除ができませんでした。もう一度お試しください。",

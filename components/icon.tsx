@@ -73,6 +73,7 @@ export const Icon = {
       height="22"
       viewBox="0 0 48 48"
       className="mr-2"
+      {...props} // propsを使用してSVGに属性を渡す
     >
       <path
         fill="#FFC107"

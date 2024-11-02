@@ -7,13 +7,13 @@ import { Icon } from "./icon";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 
-interface PostCreateButtonProps extends ButtonProps {}
+//interface PostCreateButtonProps extends ButtonProps {}
 
 export default function PostCreateButton({ 
   className,
   variant,
   ...props
-}: PostCreateButtonProps) {
+}: ButtonProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
