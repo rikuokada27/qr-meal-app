@@ -12,7 +12,7 @@ import {
   Image,
   Laptop,
   Loader2,
-  LucideProps,
+  //LucideProps,
   Moon,
   MoreVertical,
   Pizza,
@@ -20,7 +20,7 @@ import {
   Settings,
   SunMedium,
   Trash,
-  Twitter,
+  //Twitter,
   User,
   X,
 } from "lucide-react";
