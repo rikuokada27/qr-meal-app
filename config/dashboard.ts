@@ -12,12 +12,12 @@ export const dashboardConfig: DashboardConfig = {
     },
     {
       title: "検索",
-      href: "/dashboard",
+      href: "/search",
       icon: "search",
     },
     {
       title: "マイページ",
-      href: "/dashboard",
+      href: "/mypage",
       icon: "mypage",
     },
     {

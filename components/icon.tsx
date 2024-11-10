@@ -28,6 +28,7 @@ import {
   CircleUser,
   LogIn,
   LogOut,
+  ScanQrCode,
 } from "lucide-react";
 
 export const Icon = {
@@ -57,6 +58,7 @@ export const Icon = {
   mypage: CircleUser,
   login: LogIn,
   logout: LogOut,
+  qr: ScanQrCode,
   github: ({ ...props }) => (
     <svg
       aria-hidden="true"

@@ -1,12 +1,12 @@
 import Providers from "@/components/providers"; // 作成した Providers コンポーネントをインポート
 import DashboardNav from "@/components/dashboard-nav";
-import MainNav from "@/components/main-nav";
+import MainNav from "@/components/main-nav"
 import { dashboardConfig } from "@/config/dashboard";
 
-export default function DashboardLayout({
+export default function MyPageLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <Providers>
