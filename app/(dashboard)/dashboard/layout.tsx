@@ -1,29 +1,39 @@
-import DashboardNav from "@/components/dashboard-nav"
-import MainNav from "@/components/main-nav"
-import SiteFooter from "@/components/site-footer"
-import { dashboardConfig } from "@/config/dashboard"
+import Providers from "@/components/providers"; // 作成した Providers コンポーネントをインポート
+import DashboardNav from "@/components/dashboard-nav";
+import MainNav from "@/components/main-nav";
+// import SiteFooter from "@/components/site-footer";
+import { dashboardConfig } from "@/config/dashboard";
 
 export default function DashboardLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col space-y-6">
-      <header className="sticky top-0 z-40 border-b bg-background">
-        <div className="container flex items-center justify-between py-4 h-16">
-          <MainNav items={dashboardConfig.mainNav} />
-        </div>
-      </header>
-      <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
-        <aside className="hidden md:flex w-[200px] flex-col">
-          <DashboardNav items={dashboardConfig.sidebarNav}/>
-        </aside>
-        <main className="flex flex-col w-full flex-1 overflow-hidden">
+    <Providers>
+      <div className="flex min-h-screen flex-col">
+        {/* ヘッダー */}
+        <header className="sticky top-0 z-40 border-b bg-background">
+          <div className="container py-4 h-16">
+            <MainNav items={dashboardConfig.mainNav} />
+          </div>
+        </header>
+
+        {/* メインコンテンツ */}
+        <main className="flex-1 container mb-16">
           {children}
         </main>
+
+        {/* サイドバーを固定表示 */}
+        <aside className="fixed bottom-0 w-full bg-background border-t h-16">
+          <div className="container py-4 flex items-center justify-center">
+            <DashboardNav items={dashboardConfig.sidebarNav} />
+          </div>
+        </aside>
+
+        {/* フッター */}
+        {/* <SiteFooter /> */}
       </div>
-      <SiteFooter />
-    </div>
-  )
+    </Providers>
+  );
 }

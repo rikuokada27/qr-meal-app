@@ -4,6 +4,7 @@ export type NavItem = {
   title: string
   href: string
   disabled?: boolean
+  icon?: keyof typeof Icon // アイコンプロパティを追加
 }
 
 export type SiteConfig = {
