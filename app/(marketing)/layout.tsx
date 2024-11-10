@@ -2,11 +2,7 @@ import Providers from "@/components/providers"; // 作成した Providers コン
 import DashboardNav from "@/components/dashboard-nav";
 import MainNav from "@/components/main-nav"
 import { dashboardConfig } from "@/config/dashboard";
-// import SiteFooter from "@/components/site-footer"
-// import { buttonVariants } from "@/components/ui/button"
-// import { marketingConfig } from "@/config/marketing"
-// import { cn } from "@/lib/utils"
-// import Link from "next/link"
+import SiteFooter from "@/components/site-footer"
 
 export default function MarketingLayout({
   children,
@@ -36,7 +32,7 @@ export default function MarketingLayout({
         </aside>
 
         {/* フッター */}
-        {/* <SiteFooter /> */}
+        <SiteFooter />
       </div>
     </Providers>
   );
