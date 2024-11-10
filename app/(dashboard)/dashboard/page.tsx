@@ -29,7 +29,7 @@ export default async function DashboardPage() {
   })
 
   return (
-    <DashBoardShell>
+    <DashBoardShell className="pt-6">
       <DashBoardHeader heading="記事投稿" text="記事の投稿と管理">
         <PostCreateButton />
       </DashBoardHeader>

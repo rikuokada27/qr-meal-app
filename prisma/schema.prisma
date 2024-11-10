@@ -68,7 +68,7 @@ model User {
   @@map(name: "users")
 }
 
-model VerificationRequest {
+model VerificationToken { // モデル名を VerificationRequest から VerificationToken に変更
   id         String   @id @default(cuid())
   identifier String
   token      String   @unique

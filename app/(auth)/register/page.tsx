@@ -13,7 +13,6 @@ export default function Register() {
         "absolute left-4 md:left-8 md:top-8"
       )}
       >
-        ログイン
       </Link>
       <div className="h-full bg-muted lg:block hidden" />
         <div className="mx-auto w-full sm:w-[350px] flex flex-col justify-center space-y-6">

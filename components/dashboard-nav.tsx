@@ -16,21 +16,20 @@ export default function DashboardNav({ items }: DashboardNavProps) {
   }
 
   return (
-    <nav>
-      {items.map((item, index) => {
+    <nav className="flex space-x-4">
+      {items.map((item) => {
         const Icon = Icons[item.icon || "arrowRight"]
 
         return (
-          <Link href={item.href!} key={index}>
-          <span
-            className={`flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground 
-            ${path === item.href ? "bg-accent" : "bg-transparent"
-          }`}
+          <Link
+            href={item.href!}
+            key={item.href}
+            className={`sm:flex sm:items-center sm:space-x-2 grid place-items-center rounded-md px-3 py-2 sm:text-sm text-xs font-medium hover:bg-accent hover:text-accent-foreground 
+            ${path === item.href ? "bg-accent" : "bg-transparent"}`}
           >
-            <Icon className="mr-2 h-4 w-4"/>
-            {item.title}
-          </span>
-        </Link>
+            {Icon && <Icon className="h-4 w-4" />}
+            <span>{item.title}</span>
+          </Link>
         )
       })}
     </nav>
