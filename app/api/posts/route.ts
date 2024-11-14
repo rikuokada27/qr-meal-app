@@ -8,7 +8,6 @@ import { Genre } from "@prisma/client"; // Prisma の Genre 型をインポー�
 // Genreの型をデータベースに一致させます
 const postCreateSchema = z.object({
   title: z.string(),
-  // content: z.string().optional(),
   address: z.string().optional(),
   genre: z.enum(["中華", "日本食", "洋食", "イタリアン", "フレンチ", "海鮮", "焼肉", "寿司", "その他"]).optional(),
 });
