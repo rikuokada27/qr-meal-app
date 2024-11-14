@@ -81,14 +81,29 @@ model VerificationToken { // モデル名を VerificationRequest から Verifica
 model Post {
   id String @id @default(cuid())
   title String
-  content Json?
+  // content Json?    // この行をコメントアウトまたは削除
   published Boolean @default(false)
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
   authorId String
+  address String? // 住所の情報を保存するフィールド（任意）
+  genre Genre?     // ジャンルのフィールドを追加
 
   author User @relation(fields: [authorId], references: [id])
 
   @@map(name: "posts")
+}
+
+// ジャンルの選択肢をenumで定義
+enum Genre {
+  CHINESE    // 中華
+  JAPANESE   // 日本食
+  WESTERN    // 洋食
+  ITALIAN    // イタリアン
+  FRENCH     // フレンチ
+  SEAFOOD    // 海鮮
+  BBQ        // 焼肉
+  SUSHI      // 寿司
+  OTHER      // その他
 }
 

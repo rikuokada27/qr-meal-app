@@ -1,46 +1,57 @@
 import Editor from "@/components/editor";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
-import { Post, User } from "@prisma/client";
 import { notFound, redirect } from "next/navigation";
 
 interface EditorProps {
   params: { postId: string }
 }
 
-async function getPostForUser(postId: Post["id"], userId: User["id"]) {
+// 日本語ジャンルから英語ジャンルにマッピング
+const genreMapping: Record<string, "CHINESE" | "JAPANESE" | "WESTERN" | "ITALIAN" | "FRENCH" | "SEAFOOD" | "BBQ" | "SUSHI" | "OTHER"> = {
+  "中華": "CHINESE",
+  "日本食": "JAPANESE",
+  "洋食": "WESTERN",
+  "イタリアン": "ITALIAN",
+  "フレンチ": "FRENCH",
+  "海鮮": "SEAFOOD",
+  "焼肉": "BBQ",
+  "寿司": "SUSHI",
+  "その他": "OTHER",
+};
+
+async function getPostForUser(postId: string, userId: string) {
   const post = await db.post.findFirst({
     where: {
       id: postId,
       authorId: userId,
     }
-  })
-
-  return post
+  });
+  return post;
 }
 
 export default async function EditorPage({ params }: EditorProps) {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
   if (!user) {
-    redirect("/login")
+    redirect("/login");
+    return;
   }
-  const userId = user?.id
 
-  const postId = params.postId
-  const post = await getPostForUser(postId, userId)
-
+  const post = await getPostForUser(params.postId, user.id);
   if (!post) {
-    notFound()
+    notFound();
+    return;
   }
 
   return (
     <Editor
-    post={{
-      id: post?.id,
-      title: post?.title,
-      content: post?.content,
-      published: post?.published,
-    }}
+      post={{
+        id: post.id,
+        title: post.title,
+        published: post.published,
+        address: post.address || "", // アドレスを渡す
+        genre: post.genre || undefined, // genreがnullまたは空の場合はundefinedを指定
+      }}
     />
-  )
+  );
 }
