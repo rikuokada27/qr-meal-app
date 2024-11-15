@@ -50,10 +50,11 @@ export default function Editor({ post }: EditorProps) {
     },
   });
 
+  // 初期レンダリング時に地図を設定し、住所がある場合にその場所に地図を移動
   useEffect(() => {
     if (isGoogleMapsLoaded && !map) {
       const mapOptions = {
-        center: { lat: 35.681236, lng: 139.767125 },
+        center: { lat: 35.681236, lng: 139.767125 }, // 東京駅をデフォルトに
         zoom: 15,
       };
       const mapElement = document.getElementById("map") as HTMLElement;
@@ -61,6 +62,13 @@ export default function Editor({ post }: EditorProps) {
       setMap(newMap);
     }
   }, [isGoogleMapsLoaded, map]);
+
+  useEffect(() => {
+    // 地図が初期化され、post.addressが存在する場合にその住所を地図上に設定
+    if (map && post.address) {
+      updateMapLocation(post.address);
+    }
+  }, [map, post.address]);
 
   const updateMapLocation = async (address: string) => {
     if (!map || !window.google) return;
