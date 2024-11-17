@@ -25,6 +25,39 @@ const genreMapping: Record<string, Genre> = {
   "その他": "OTHER",
 };
 
+export async function GET(req: NextRequest) {
+  try {
+    // 認証が必要な場合は以下を有効にしてください
+    /*
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json("Unauthorized", { status: 403 });
+    }
+    */
+
+    const { searchParams } = new URL(req.url);
+    const genre = searchParams.get("genre") as Genre | null;
+    const order = searchParams.get("order") === "asc" ? "asc" : "desc";
+    const prefecture = searchParams.get("prefecture") as string | null;
+
+    // 投稿の取得
+    const posts = await db.post.findMany({
+      where: {
+        ...(genre ? { genre } : {}),
+        ...(prefecture ? { address: { contains: prefecture } } : {}), // 住所に都道府県が含まれるかをフィルタ
+      },
+      orderBy: {
+        createdAt: order,
+      },
+    });
+
+    return NextResponse.json(posts);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -45,7 +78,6 @@ export async function POST(req: NextRequest) {
     const post = await db.post.create({
       data: {
         title,
-        // content,
         address,
         genre: mappedGenre, // mappedGenreはGenre型にキャスト済み
         authorId: user.id,

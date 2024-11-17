@@ -22,6 +22,8 @@ export default async function DashboardPage() {
       title: true,
       published: true,
       createdAt: true,
+      genre: true,   // 追加
+      address: true, // 追加
     },
     orderBy: {
       updatedAt: "desc"

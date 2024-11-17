@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { Icon } from "./icon";
 import { Input } from "@/components/ui/input";
 import { useLoadGoogleMaps } from "@/hooks/useLoadGoogleMaps";
+import { prefectures } from "@/lib/prefectures"; // 都道府県リストのインポート
 
 interface EditorProps {
   post: {
@@ -41,7 +42,7 @@ export default function Editor({ post }: EditorProps) {
     "その他": "OTHER",
   };
 
-  const { register, handleSubmit, watch, setValue } = useForm<postPatchSchemaType>({
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<postPatchSchemaType>({
     resolver: zodResolver(postPatchSchema),
     defaultValues: {
       title: post ? (post.title !== "Untitled Post" ? post.title : "") : "",
@@ -163,6 +164,9 @@ export default function Editor({ post }: EditorProps) {
             placeholder="店名を入力"
             autoComplete="off"
           />
+          {errors.title && (
+            <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
+          )}
         </div>
 
         <div>
@@ -184,7 +188,10 @@ export default function Editor({ post }: EditorProps) {
             <option value="寿司">寿司</option>
             <option value="その他">その他</option>
           </select>
-          <input type="hidden" {...register("genre", { required: true })} />
+          <input type="hidden" {...register("genre", { required: false })} />
+          {errors.genre && (
+            <p className="mt-1 text-sm text-red-600">{errors.genre.message}</p>
+          )}
         </div>
 
         <div>
@@ -192,9 +199,12 @@ export default function Editor({ post }: EditorProps) {
           <Input
             id="address"
             {...register("address", { required: true })}
-            placeholder="住所を入力"
+            placeholder="住所を入力（都道府県から入力してください）"
             autoComplete="off"
           />
+          {errors.address && (
+            <p className="mt-1 text-sm text-red-600">{errors.address.message}</p>
+          )}
         </div>
 
         <div id="map" style={{ width: "100%", height: "400px" }} className="rounded-lg shadow-md"></div>
