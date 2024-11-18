@@ -13,6 +13,13 @@ export default async function DashboardPage() {
     redirect("/login")
   }
 
+  // 現在のユーザーがお気に入りにしている投稿IDのリストを取得
+  const favoritePosts = await db.favorite.findMany({
+    where: { userId: user.id },
+    select: { postId: true },
+  });
+  const favoritePostIds = new Set(favoritePosts.map(fav => fav.postId));
+
   const posts = await db.post.findMany({
     where: {
       authorId: user.id,
@@ -22,23 +29,29 @@ export default async function DashboardPage() {
       title: true,
       published: true,
       createdAt: true,
-      genre: true,   // 追加
-      address: true, // 追加
+      genre: true,
+      address: true,
     },
     orderBy: {
       updatedAt: "desc"
     }
   })
 
+  // 各投稿に isFavorite フィールドを追加
+  const postsWithFavorites = posts.map(post => ({
+    ...post,
+    isFavorite: favoritePostIds.has(post.id),
+  }))
+
   return (
     <DashBoardShell className="pt-6 max-w-4xl mx-auto">
-      <DashBoardHeader heading="記事投稿" text="記事の投稿と管理">
+      <DashBoardHeader heading="お店の投稿" text="お店の投稿と管理">
         <PostCreateButton />
       </DashBoardHeader>
       <div>
-        {posts.length ? (
-            <div className="divide-y border rounded-md">
-            {posts.map((post) => (
+        {postsWithFavorites.length ? (
+          <div className="divide-y border rounded-md">
+            {postsWithFavorites.map((post) => (
               <PostItem key={post.id} post={post} />
             ))}
           </div>

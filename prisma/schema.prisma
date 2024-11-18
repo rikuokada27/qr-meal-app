@@ -56,6 +56,8 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  favorites Favorite[] @relation("UserFavorites")
+
   accounts      Account[]
   sessions      Session[]
   Post          Post[]
@@ -89,9 +91,20 @@ model Post {
   address String? // 住所の情報を保存するフィールド（任意）
   genre Genre?     // ジャンルのフィールドを追加
 
+  favoritedBy Favorite[]  @relation("UserFavorites")
+
   author User @relation(fields: [authorId], references: [id])
 
   @@map(name: "posts")
+}
+
+model Favorite {
+  user   User @relation("UserFavorites", fields: [userId], references: [id])
+  userId String
+  post   Post @relation("UserFavorites", fields: [postId], references: [id])
+  postId String
+
+  @@id([userId, postId])
 }
 
 // ジャンルの選択肢をenumで定義
