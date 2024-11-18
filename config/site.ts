@@ -7,6 +7,7 @@ export const siteConfig: SiteConfig = {
   ogImage: "",
   links: {
     x: "https://twitter.com/Shin_Engineer",
-    github: "https://github.com/rikuokada27"
+    github: "https://github.com/rikuokada27",
+    qiita: "https://qiita.com/lugangtian89"
   }
  }
