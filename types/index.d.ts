@@ -15,6 +15,7 @@ export type SiteConfig = {
   links: {
     x: string
     github: string
+    qiita: string
   }
 }
 

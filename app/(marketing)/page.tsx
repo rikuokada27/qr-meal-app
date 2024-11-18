@@ -99,7 +99,7 @@ export default function IndexPage() {
             お仕事のご連絡をお待ちしております。
           </p>
           <Link
-            href={siteConfig.links.x}
+            href={siteConfig.links.qiita}
             className="underline underline-offset-4 pt-4"
             target="blank"
             rel="noreferrer"
