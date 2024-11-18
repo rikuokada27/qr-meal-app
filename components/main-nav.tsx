@@ -64,15 +64,6 @@ export default function MainNav({ items }: MainNavProps) {
           </button>
         )}
       </nav>
-      {/* モバイルメニューのボタン（必要に応じてコメントを外す） */}
-      {/* 
-      <button className="md:hidden" onClick={() => setShowMobileMenu(!showMobileMenu)}>
-        <span>
-          メニュー
-        </span>
-      </button>
-      {showMobileMenu && <MobileNav items={items} />} 
-      */}
     </div>
   );
 }
